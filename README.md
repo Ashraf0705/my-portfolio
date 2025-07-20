@@ -1,3 +1,41 @@
+# Shaik Mohammed Ashraf - 3D Animated Portfolio
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Next.js](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React Three Fiber](https://img.shields.io/badge/React%20Three%20Fiber-20232A?style=for-the-badge&logo=three.js&logoColor=white)](https://github.com/pmndrs/react-three-fiber)
+[![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+
+<p align="center">
+  <a href="https://s-md-ashraf-portfolio.vercel.app/" target="_blank">
+    <img src="./assets/home-page-portfolio.png" alt="Portfolio Hero Section" />
+  </a>
+</p>
+
+<h2 align="center">
+  <a href="https://s-md-ashraf-portfolio.vercel.app/" target="_blank">🚀 View Live Demo 🚀</a>
+</h2>
+
+<p align="center">
+  This repository contains the source code for my personal portfolio, a fully interactive, 3D-animated digital experience designed to showcase my skills as an AI & ML Engineer and Full-Stack Developer.
+</p>
+
+---
+
+## ✨ About The Project
+
+This isn't just a portfolio; it's a digital statement. The goal was to move beyond static pages and create an immersive, memorable experience that reflects my passion for cutting-edge technology and elegant design. The entire site is a single-page application built with a modern, high-performance tech stack, featuring complex 3D visuals, fluid scroll-driven animations, and a fully responsive layout.
+
+Every section, from the "Neural Journey" of my education to the showcase of my projects, was meticulously crafted to tell a story and demonstrate technical proficiency.
+
+### Key Features:
+
+*   **Interactive 3D Hero Section:** A stunning, mouse-reactive model rendered with React Three Fiber.
+*   **Scroll-Driven Animations:** The entire site is animated on scroll using GSAP for a fluid, narrative-driven experience.
+*   **"Neural Journey" Timeline:** A unique, custom-built SVG timeline that animates to visualize my academic and professional path.
+*   **Dynamic Component-Based Architecture:** Built with reusable React components for maintainability and scalability.
+*   **Fully Responsive Design:** A flawless viewing experience on all devices, from mobile phones to 4K desktops.
+*   **Performance Optimized:** Built with Next.js for Static Site Generation (SSG), ensuring lightning-fast load times.
+
 ## 🏛️ Architectural Philosophy & Core Technologies
 
 This portfolio is not just a collection of components; it's a fully-integrated digital ecosystem built on a philosophy of performance, elegance, and interactivity. The technology stack was chosen to serve this vision.
@@ -15,7 +53,6 @@ This portfolio is not just a collection of components; it's a fully-integrated d
 ## 💡 A Note on the Source Code
 
 This repository is available for exploration and inspiration. The code is a testament to modern front-end practices, demonstrating a clean, component-based architecture and a strong emphasis on both aesthetic quality and technical performance. Feel free to explore how different sections were constructed.
-
 
 ## 📬 Contact
 
