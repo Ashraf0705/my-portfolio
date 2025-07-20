@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://s-md-ashraf-portfolio.vercel.app/" target="_blank">
-    <img src="https://i.imgur.com/gKj3aQ3.png" alt="Portfolio Hero Section" />
+    <img src="./assets/home-page-portfolio.png" alt="Portfolio Hero Section" />
   </a>
 </p>
 
