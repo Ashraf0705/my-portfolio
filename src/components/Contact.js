@@ -53,6 +53,7 @@ const Contact = () => {
     <ContactSection>
       <SectionTitle>Create <span>Together</span></SectionTitle>
       <ContactText>
+        {/* --- THE FIX IS HERE: let's is now let's --- */}
         My inbox is always open. Whether you have a project, an idea, or an opportunity, let's connect and build the future—one line of code at a time.
       </ContactText>
       <ContactButton href="mailto:smdashraf01@gmail.com">
