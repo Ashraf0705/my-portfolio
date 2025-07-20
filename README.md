@@ -16,9 +16,6 @@ This portfolio is not just a collection of components; it's a fully-integrated d
 
 This repository is available for exploration and inspiration. The code is a testament to modern front-end practices, demonstrating a clean, component-based architecture and a strong emphasis on both aesthetic quality and technical performance. Feel free to explore how different sections were constructed.
 
-## 🤝 Acknowledgments
-
-This project was built in an intensive, collaborative process with the **Apex Intellect Mentor**, pushing the boundaries of design and implementation to achieve a truly legendary final product.
 
 ## 📬 Contact
 
