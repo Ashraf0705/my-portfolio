@@ -122,7 +122,7 @@ useEffect(() => {
     return () => ctx.revert();
 }, []);
   return (
-    <ExperienceSection ref={sectionRef}>
+    <ExperienceSection ref={sectionRef} id="experience">
       <SectionTitle>MY<span>Experience</span></SectionTitle>
       <TimelineContainer>
         {experienceData.map((exp, index) => (

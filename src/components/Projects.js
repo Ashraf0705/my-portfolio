@@ -189,7 +189,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <ProjectsSection ref={sectionRef}>
+    <ProjectsSection ref={sectionRef} id="projects">
       <SectionTitle>The <span>Proof</span></SectionTitle>
       <div>
         {projectsData.map((project, index) => (

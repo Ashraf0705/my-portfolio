@@ -349,7 +349,7 @@ const Education = () => {
   }, []);
 
   return (
-    <EducationSection ref={sectionRef}>
+    <EducationSection ref={sectionRef} id="education">
       <SectionTitle>ACADEMIC <span>JOURNEY</span></SectionTitle>
       <TimelineContainer>
         <TimelinePath ref={timelineRef} />

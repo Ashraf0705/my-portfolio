@@ -187,7 +187,7 @@ const Skills = () => {
   }, [activeTab]);
 
   return (
-    <SkillsSection ref={sectionRef}>
+    <SkillsSection ref={sectionRef} id="skills">
       <SectionTitle>
         My <span>Arsenal</span>
       </SectionTitle>

@@ -53,7 +53,7 @@ const Subtitle = styled.p`
 
 const Hero = () => {
   return (
-    <HeroContainer>
+    <HeroContainer id="hero">
       <SceneWrapper>
         <Scene />
       </SceneWrapper>

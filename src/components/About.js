@@ -232,7 +232,7 @@ const About = () => {
   }, []);
 
   return (
-    <AboutSection ref={sectionRef}>
+    <AboutSection ref={sectionRef} id="about">
       <SectionTitle>THE <span>MANIFESTO</span></SectionTitle>
       <AboutWrapper>
         <ImageContainer>
