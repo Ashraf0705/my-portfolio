@@ -1,18 +1,22 @@
-// src/components/Skills.js
 'use client';
-
 import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { skillsData } from '@/data/skills';
-import { colors, fonts, breakpoints } from '@/styles/theme';
-import { FaPython, FaJava, FaReact, FaNodeJs, FaDocker, FaGitAlt, FaHtml5, FaCss3Alt, FaJsSquare } from 'react-icons/fa';
-import { SiExpress, SiDjango, SiPostgresql, SiMysql, SiVercel, SiKeras, SiScikitlearn, SiPandas, SiNumpy } from 'react-icons/si';
+import { colors, fonts } from '@/styles/theme';
+import { 
+  FaPython, FaJava, FaReact, FaNodeJs, FaDocker, FaGitAlt, 
+  FaHtml5, FaCss3Alt, FaJsSquare 
+} from 'react-icons/fa';
+import { 
+  SiExpress, SiDjango, SiPostgresql, SiMysql, 
+  SiVercel, SiKeras, SiScikitlearn, SiPandas, SiNumpy 
+} from 'react-icons/si';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- NEW: FALLBACK ICON COMPONENT ---
+// --- Fallback Icon ---
 const FallbackIconContainer = styled.div`
   width: 3rem;
   height: 3rem;
@@ -27,19 +31,43 @@ const FallbackIconContainer = styled.div`
 `;
 
 const FallbackIcon = ({ text }) => (
-  <FallbackIconContainer>{text.charAt(0)}</FallbackIconContainer>
+  <FallbackIconContainer>
+    <span suppressHydrationWarning>{text.charAt(0)}</span>
+  </FallbackIconContainer>
 );
 
-// --- UPDATED: ICON MAP ---
+// --- Icon Map (Components only, no JSX) ---
 const iconMap = {
-  Python: <FaPython />, Java: <FaJava />, 'React.js': <FaReact />, 'Node.js': <FaNodeJs />,
-  Docker: <FaDocker />, Git: <FaGitAlt />, 'Express.js': <SiExpress />, Django: <SiDjango />,
-  PostgreSQL: <SiPostgresql />, MySQL: <SiMysql />, Vercel: <SiVercel />,
-  HTML5: <FaHtml5 />, CSS3: <FaCss3Alt />, JavaScript: <FaJsSquare />,
-  // Add new icons if available, otherwise they will use the fallback
-  Keras: <SiKeras />, 'Scikit-learn': <SiScikitlearn />, Pandas: <SiPandas />, Numpy: <SiNumpy />,
+  Python: FaPython,
+  Java: FaJava,
+  'React.js': FaReact,
+  'Node.js': FaNodeJs,
+  Docker: FaDocker,
+  Git: FaGitAlt,
+  'Express.js': SiExpress,
+  Django: SiDjango,
+  PostgreSQL: SiPostgresql,
+  MySQL: SiMysql,
+  Vercel: SiVercel,
+  HTML5: FaHtml5,
+  CSS3: FaCss3Alt,
+  JavaScript: FaJsSquare,
+  Keras: SiKeras,
+  'Scikit-learn': SiScikitlearn,
+  Pandas: SiPandas,
+  Numpy: SiNumpy,
 };
 
+// --- Fallback Texts ---
+const fallbackTextMap = {
+  'C++': 'C++',
+  'Data Science': 'DS',
+  'Neural Networks': 'NN',
+  AWS: 'AWS',
+  MongoDB: 'MDB',
+};
+
+// --- Styled Components ---
 const SkillsSection = styled.section`
   max-width: 1000px;
   margin: 0 auto;
@@ -52,7 +80,10 @@ const SectionTitle = styled.h2`
   color: ${colors.text};
   text-align: center;
   margin-bottom: 4rem;
-  span { color: ${colors.accent}; }
+
+  span {
+    color: ${colors.accent};
+  }
 `;
 
 const TabsContainer = styled.div`
@@ -102,20 +133,28 @@ const SkillCard = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 15px; /* Increased gap */
-  min-height: 150px; /* Ensure uniform height */
+  gap: 15px;
+  min-height: 150px;
   transition: all 0.3s ease;
 
   svg {
     font-size: 3rem;
     color: ${colors.accent};
   }
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 191, 255, 0.1);
     border-color: ${colors.accent};
   }
+`;
+
+const SkillDescription = styled.p`
+  font-family: ${fonts.body};
+  font-size: 0.85rem;
+  color: #a8b2d1;
+  margin-top: 0.5rem;
+  line-height: 1.4;
 `;
 
 const Skills = () => {
@@ -136,21 +175,24 @@ const Skills = () => {
     }, sectionRef);
     return () => ctx.revert();
   }, []);
-  
+
   useEffect(() => {
     if (gridRef.current) {
-        gsap.fromTo(gridRef.current.children, 
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, stagger: 0.05, duration: 0.5, ease: 'power3.out' }
-        );
+      gsap.fromTo(
+        gridRef.current.children,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, stagger: 0.05, duration: 0.5, ease: 'power3.out' }
+      );
     }
   }, [activeTab]);
 
   return (
     <SkillsSection ref={sectionRef}>
-      <SectionTitle>My <span>Arsenal</span></SectionTitle>
+      <SectionTitle>
+        My <span>Arsenal</span>
+      </SectionTitle>
       <TabsContainer className="tabs">
-        {skillsData.map(category => (
+        {skillsData.map((category) => (
           <TabButton
             key={category.category}
             onClick={() => setActiveTab(category.category)}
@@ -162,14 +204,18 @@ const Skills = () => {
       </TabsContainer>
       <SkillsGrid ref={gridRef}>
         {skillsData
-          .find(cat => cat.category === activeTab)
-          .items.map(skill => (
-            <SkillCard key={skill}>
-              {/* --- MODIFIED LOGIC --- */}
-              {iconMap[skill] ? iconMap[skill] : <FallbackIcon text={skill} />}
-              <span>{skill}</span>
-            </SkillCard>
-          ))}
+          .find((cat) => cat.category === activeTab)
+          .items.map((skill) => {
+            const Icon = iconMap[skill.name];
+            const fallbackText = fallbackTextMap[skill.name] || skill.name;
+            return (
+              <SkillCard key={`${activeTab}-${skill.name}`}>
+                {Icon ? <Icon /> : <FallbackIcon text={fallbackText} />}
+                <span>{skill.name}</span>
+                <SkillDescription>{skill.description}</SkillDescription>
+              </SkillCard>
+            );
+          })}
       </SkillsGrid>
     </SkillsSection>
   );

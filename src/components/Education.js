@@ -5,6 +5,7 @@ import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { educationData } from '@/data/credentials'; 
 import { colors, fonts, breakpoints } from '@/styles/theme';
+import { FaGraduationCap, FaCalendarAlt, FaTrophy } from 'react-icons/fa';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -23,200 +24,365 @@ const SectionTitle = styled.h2`
   color: ${colors.text};
   text-align: center;
   margin-bottom: 8rem;
-  span { color: ${colors.accent}; }
-`;
-
-// --- THE DEFINITIVE, UNBREAKABLE LAYOUT ENGINE ---
-const TimelineWrapper = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 8rem; // Spacing between nodes
+  
+  span { 
+    color: ${colors.accent};
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, ${colors.accent}, transparent);
+      border-radius: 2px;
+    }
+  }
 `;
 
-const SVGContainer = styled.div`
+const TimelineContainer = styled.div`
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+`;
+
+const TimelinePath = styled.div`
   position: absolute;
+  left: 50%;
   top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, ${colors.accent}, rgba(0, 191, 255, 0.3));
+  transform: translateX(-50%);
+  border-radius: 2px;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: ${colors.accent};
+    border-radius: 50%;
+    box-shadow: 0 0 20px ${colors.accent};
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: ${colors.accent};
+    border-radius: 50%;
+    box-shadow: 0 0 20px ${colors.accent};
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    left: 30px;
+  }
 `;
 
-const SVGPath = styled.path`
-  stroke: ${colors.accent};
-  stroke-width: 2.5;
-  fill: none;
-  filter: drop-shadow(0 0 10px ${colors.accent});
-`;
-
-const TimelineNode = styled.div`
-  display: grid;
-  grid-template-columns: 1fr auto 1fr; // Left | Center | Right
-  gap: 2rem;
-  align-items: center;
-  width: 100%;
+const TimelineItem = styled.div`
   position: relative;
-`;
-
-const NodeContent = styled.div`
-  // The Alternating Logic, perfected
-  ${TimelineNode}:nth-child(odd) & { 
-    grid-column: 1 / 2;
+  margin-bottom: 6rem;
+  display: flex;
+  align-items: center;
+  
+  &:nth-child(odd) .timeline-content {
+    margin-left: auto;
+    margin-right: 3rem;
     text-align: right;
+    
+    .timeline-card {
+      transform-origin: right center;
+    }
   }
-  ${TimelineNode}:nth-child(even) & { 
-    grid-column: 3 / 4;
+  
+  &:nth-child(even) .timeline-content {
+    margin-right: auto;
+    margin-left: 3rem;
     text-align: left;
+    
+    .timeline-card {
+      transform-origin: left center;
+    }
   }
 
   @media (max-width: ${breakpoints.tablet}) {
-    grid-column: 1 / -1 !important; // Full width on mobile
-    text-align: center !important;
-    margin-top: 2rem;
+    &:nth-child(odd) .timeline-content,
+    &:nth-child(even) .timeline-content {
+      margin-left: 4rem;
+      margin-right: 0;
+      text-align: left;
+      
+      .timeline-card {
+        transform-origin: left center;
+      }
+    }
   }
 `;
 
-const NodeDot = styled.div`
-  grid-column: 2 / 3; // Always in the center column
-  grid-row: 1 / 2;
-  width: 24px;
-  height: 24px;
-  background-color: ${colors.accent};
+const TimelineContent = styled.div`
+  width: 45%;
+  position: relative;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: calc(100% - 5rem);
+  }
+`;
+
+const TimelineCard = styled.div`
+  background: linear-gradient(135deg, ${colors.subtle} 0%, rgba(26, 26, 26, 0.8) 100%);
+  border: 1px solid rgba(0, 191, 255, 0.2);
+  border-radius: 15px;
+  padding: 2rem;
+  position: relative;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  min-width: 350px;
+  max-width: 450px;
+  
+  &:hover {
+    transform: translateY(-5px);
+    border-color: ${colors.accent};
+    box-shadow: 0 20px 40px rgba(0, 191, 255, 0.1);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0;
+    height: 0;
+    border: 15px solid transparent;
+    
+    ${TimelineItem}:nth-child(odd) & {
+      right: -30px;
+      border-left-color: rgba(0, 191, 255, 0.2);
+      transform: translateY(-50%);
+    }
+    
+    ${TimelineItem}:nth-child(even) & {
+      left: -30px;
+      border-right-color: rgba(0, 191, 255, 0.2);
+      transform: translateY(-50%);
+    }
+
+    @media (max-width: ${breakpoints.tablet}) {
+      ${TimelineItem}:nth-child(odd) &,
+      ${TimelineItem}:nth-child(even) & {
+        left: -30px;
+        right: auto;
+        border-right-color: rgba(0, 191, 255, 0.2);
+        border-left-color: transparent;
+        transform: translateY(-50%);
+      }
+    }
+  }
+`;
+
+const TimelineDot = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, ${colors.accent}, #0080cc);
+  border: 4px solid ${colors.background};
   border-radius: 50%;
-  box-shadow: 0 0 20px ${colors.accent}, 0 0 30px ${colors.accent};
-  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  box-shadow: 0 0 30px rgba(0, 191, 255, 0.5);
+  
+  svg {
+    font-size: 1.5rem;
+    color: white;
+  }
 
   @media (max-width: ${breakpoints.tablet}) {
-    grid-column: 1 / -1; // Center dot on top for mobile
-    margin: 0 auto;
+    left: 30px;
+    width: 50px;
+    height: 50px;
+    
+    svg {
+      font-size: 1.2rem;
+    }
   }
 `;
 
-const Degree = styled.h3`
+const DegreeTitle = styled.h3`
   font-family: ${fonts.heading};
-  font-size: clamp(2.4rem, 5vw, 3.2rem);
-  color: #ccd6f6;
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
+  color: ${colors.text};
   margin-bottom: 0.5rem;
-  white-space: nowrap; // Prevents "AI & DS" from breaking
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  svg {
+    color: ${colors.accent};
+    font-size: 1.5rem;
+  }
 `;
-const Institution = styled.p`
-  color: #a8b2d1;
-  font-size: clamp(1.6rem, 4vw, 2rem);
-  font-weight: 700;
+
+const Institution = styled.h4`
+  color: ${colors.accent};
+  font-family: ${fonts.body};
+  font-size: clamp(1.2rem, 3vw, 1.4rem);
+  font-weight: 600;
   margin-bottom: 1rem;
 `;
-const Score = styled.p`
-  color: ${colors.accent};
-  font-family: ${fonts.body}; // Using clearer font for numbers
-  font-weight: 700;
-  font-size: clamp(1.3rem, 3vw, 1.5rem);
-  margin-bottom: 0.5rem;
+
+const ScoreContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
 `;
-const Year = styled.p`
+
+const Score = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 191, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 191, 255, 0.3);
+  
+  svg {
+    color: ${colors.accent};
+    font-size: 1rem;
+  }
+  
+  span {
+    color: ${colors.text};
+    font-weight: 600;
+    font-size: 1rem;
+  }
+`;
+
+const Year = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: #a8b2d1;
-  font-family: ${fonts.body}; // Using clearer font for numbers
-  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  font-size: 1rem;
+  
+  svg {
+    color: ${colors.accent};
+  }
 `;
 
 const Education = () => {
   const sectionRef = useRef(null);
-  const svgPathRef = useRef(null);
-  const nodeRefs = useRef([]);
+  const timelineRef = useRef(null);
 
   useEffect(() => {
-    const path = svgPathRef.current;
-    if (!path) return;
-    
-    // --- The Robust Path Calculation ---
-    const updatePath = () => {
-      let d = "";
-      const wrapperRect = sectionRef.current.getBoundingClientRect();
-      const nodes = nodeRefs.current.filter(n => n);
-
-      nodes.forEach((node, i) => {
-        const dot = node.querySelector('.timeline-dot');
-        if (!dot) return;
-        const dotRect = dot.getBoundingClientRect();
-        const x = dotRect.left - wrapperRect.left + dotRect.width / 2;
-        const y = dotRect.top - wrapperRect.top + dotRect.height / 2;
-
-        if (i === 0) {
-          d += `M ${x} ${y}`;
-        } else {
-          const prevDot = nodes[i-1].querySelector('.timeline-dot');
-          if (!prevDot) return;
-          const prevDotRect = prevDot.getBoundingClientRect();
-          const prevY = prevDotRect.top - wrapperRect.top + prevDotRect.height / 2;
-          const cpy = (y + prevY) / 2;
-          d += ` C ${x} ${cpy}, ${x} ${cpy}, ${x} ${y}`;
-        }
-      });
-
-      path.setAttribute("d", d);
-      const pathLength = path.getTotalLength();
-      path.style.strokeDasharray = pathLength;
-      path.style.strokeDashoffset = pathLength;
-    };
-    
-    const timeoutId = setTimeout(updatePath, 100);
-    window.addEventListener('resize', updatePath);
-
     const ctx = gsap.context(() => {
-      // The Restored Scroll-Driven Animation
-      gsap.to(path, {
-        strokeDashoffset: 0,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top center",
-          end: "bottom bottom",
-          scrub: 1.5,
-          onUpdate: self => { if (self.progress > 0) path.style.display = 'block'; },
-        }
+      // Title animation
+      gsap.from(sectionRef.current.querySelector('h2'), {
+        scrollTrigger: { 
+          trigger: sectionRef.current, 
+          start: "top 80%" 
+        },
+        opacity: 0,
+        y: 50,
+        duration: 1,
+        ease: 'power3.out',
       });
 
-      const items = sectionRef.current.querySelectorAll('.node-content');
-      items.forEach(item => {
-        gsap.from(item, {
-          opacity: 0, y: 50, ease: 'power3.out',
-          scrollTrigger: { trigger: item, start: "top 85%", toggleActions: "play none none reverse" }
+      // Timeline path animation
+      gsap.from(timelineRef.current, {
+        scrollTrigger: { 
+          trigger: timelineRef.current, 
+          start: "top 70%" 
+        },
+        scaleY: 0,
+        transformOrigin: "top center",
+        duration: 1.5,
+        ease: 'power3.out',
+      });
+
+      // Timeline items animation
+      const items = sectionRef.current.querySelectorAll('.timeline-item');
+      items.forEach((item, index) => {
+        gsap.from(item.querySelector('.timeline-card'), {
+          scrollTrigger: { 
+            trigger: item, 
+            start: "top 85%" 
+          },
+          opacity: 0,
+          scale: 0.8,
+          y: 50,
+          duration: 0.8,
+          delay: index * 0.2,
+          ease: 'back.out(1.7)',
+        });
+
+        gsap.from(item.querySelector('.timeline-dot'), {
+          scrollTrigger: { 
+            trigger: item, 
+            start: "top 85%" 
+          },
+          opacity: 0,
+          scale: 0,
+          duration: 0.6,
+          delay: index * 0.2 + 0.3,
+          ease: 'back.out(1.7)',
         });
       });
     }, sectionRef);
 
-    return () => {
-      clearTimeout(timeoutId);
-      window.removeEventListener('resize', updatePath);
-      ctx.revert();
-    }
+    return () => ctx.revert();
   }, []);
 
   return (
     <EducationSection ref={sectionRef}>
       <SectionTitle>ACADEMIC <span>JOURNEY</span></SectionTitle>
-      <SVGContainer>
-          <svg width="100%" height="100%" preserveAspectRatio="none">
-              <SVGPath ref={svgPathRef} style={{display: 'none'}}/>
-          </svg>
-      </SVGContainer>
-      <TimelineWrapper>
+      <TimelineContainer>
+        <TimelinePath ref={timelineRef} />
         {educationData.map((edu, index) => (
-          <TimelineNode key={index} ref={el => nodeRefs.current[index] = el}>
-            <NodeContent>
-              <Degree>{edu.degree}</Degree>
-              <Institution>{edu.institution}</Institution>
-              <Score>{edu.score}</Score>
-              <Year>{edu.year}</Year>
-            </NodeContent>
-            <NodeDot className="timeline-dot" />
-            <NodeContent /> {/* This empty div ensures the grid stays balanced */}
-          </TimelineNode>
+          <TimelineItem key={index} className="timeline-item">
+            <TimelineContent className="timeline-content">
+              <TimelineCard className="timeline-card">
+                <DegreeTitle>
+                  <FaGraduationCap />
+                  {edu.degree}
+                </DegreeTitle>
+                <Institution>{edu.institution}</Institution>
+                <ScoreContainer>
+                  <Score>
+                    <FaTrophy />
+                    <span>{edu.score}</span>
+                  </Score>
+                  <Year>
+                    <FaCalendarAlt />
+                    {edu.year}
+                  </Year>
+                </ScoreContainer>
+              </TimelineCard>
+            </TimelineContent>
+            <TimelineDot className="timeline-dot">
+              <FaGraduationCap />
+            </TimelineDot>
+          </TimelineItem>
         ))}
-      </TimelineWrapper>
+      </TimelineContainer>
     </EducationSection>
   );
 };
 
 export default Education;
+
